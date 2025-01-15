@@ -125,6 +125,9 @@ class FilePickerIO extends FilePicker {
         );
       }
 
+      print("result ");
+      print("results ${platformFiles}");
+
       return FilePickerResult(platformFiles);
     } on PlatformException catch (e) {
       print('[$_tag] Platform exception: $e');
