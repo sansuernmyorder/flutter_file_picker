@@ -128,6 +128,7 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
                                 }
                                 final FileInfo file = FileUtils.openFileStream(FilePickerDelegate.this.activity, currentUri, loadDataToMemory);
                                 if(file != null) {
+                                    Log.e("Yoooooooo size", String.valueOf(file.size));
                                     files.add(file);
                                     Log.d(FilePickerDelegate.TAG, "[MultiFilePick] File #" + currentItem + " - URI: " + currentUri.getPath());
                                 }
