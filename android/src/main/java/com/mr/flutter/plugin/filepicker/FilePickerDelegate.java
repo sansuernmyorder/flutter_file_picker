@@ -55,6 +55,8 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
     }
 
     public void setEventHandler(final EventChannel.EventSink eventSink) {
+        Log.e("setEventHandler","setEventHandler");
+
         this.eventSink = eventSink;
     }
 
@@ -67,7 +69,8 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
 
     @Override
     public boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        finishWithError("Error while saving file", "moderrrrrrr");
+        Log.e("onActivityResult","onActivityResult");
+
 
         // Save file
         if (requestCode == SAVE_FILE_CODE) {
@@ -327,6 +330,8 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
 
     @SuppressWarnings("unchecked")
     private void finishWithSuccess(Object data) {
+        Log.d("finishWithSuccess","finishWithSuccess");
+
         this.dispatchEventStatus(false);
 
         // Temporary fix, remove this null-check after Flutter Engine 1.14 has landed on stable
@@ -346,6 +351,8 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
     }
 
     private void finishWithError(final String errorCode, final String errorMessage) {
+        Log.e("finishWithError","finishWithError");
+
         if (this.pendingResult == null) {
             return;
         }
