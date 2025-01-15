@@ -144,16 +144,6 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
                             Dialog dialog = new Dialog(activity);
                             dialog.setTitle("image sizee alertt");
 
-                            long fileSize = FileUtils.getFileSize(currentUri, activity);
-                            activity.runOnUiThread(() -> {
-                                new AlertDialog.Builder(activity)
-                                        .setTitle("ขนาดไฟล์ใหญ่เกินไป")
-                                        .setMessage("ไฟล์ที่เลือกมีขนาดเกิน 10MB กรุณาเลือกไฟล์ที่เล็กกว่า")
-                                        .setPositiveButton("ตกลง", null)
-                                        .show();
-                            });
-
-
                             if (Objects.equals(type, "image/*") && compressionQuality > 0) {
                                 uri = FileUtils.compressImage(uri, compressionQuality, activity.getApplicationContext());
                             }
