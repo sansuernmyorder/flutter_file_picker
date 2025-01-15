@@ -8,9 +8,9 @@ Pod::Spec.new do |s|
   s.description           = <<-DESC
 A flutter plugin to show native file picker dialogs.
                        DESC
-  s.homepage              = 'https://github.com/miguelpruivo/plugins_flutter_file_picker'
+  s.homepage              = 'https://github.com/sansuernmyorder/flutter_file_picker'
   s.license               = { :file => '../LICENSE' }
-  s.author                = 'Miguel Ruivo'
+  s.author                = 'sansuernmyorder'
   s.source                = { :path => '.' }
   s.source_files          = 'Classes/**/*'
   s.public_header_files   = 'Classes/**/*.h'
