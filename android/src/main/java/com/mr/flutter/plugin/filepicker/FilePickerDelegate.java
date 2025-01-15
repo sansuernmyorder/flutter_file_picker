@@ -67,6 +67,7 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
 
     @Override
     public boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        Log.d("onActivityResult","onActivityResult");
         // Save file
         if (requestCode == SAVE_FILE_CODE) {
             if (resultCode == Activity.RESULT_OK) {
