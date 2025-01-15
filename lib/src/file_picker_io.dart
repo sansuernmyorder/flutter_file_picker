@@ -109,17 +109,16 @@ class FilePickerIO extends FilePicker {
 
       final List<PlatformFile> platformFiles = <PlatformFile>[];
 
-      // for (final Map platformFileMap in result) {
-      //   platformFiles.add(
-      //     PlatformFile.fromMap(
-      //       platformFileMap,
-      //       readStream: withReadStream! ? File(platformFileMap['path']).openRead() : null,
-      //     ),
-      //   );
-      // }
-      //
-      // return FilePickerResult(platformFiles);
-      return null;
+      for (final Map platformFileMap in result) {
+        platformFiles.add(
+          PlatformFile.fromMap(
+            platformFileMap,
+            readStream: withReadStream! ? File(platformFileMap['path']).openRead() : null,
+          ),
+        );
+      }
+
+      return FilePickerResult(platformFiles);
     } on PlatformException catch (e) {
       print('[$_tag] Platform exception: $e');
       rethrow;

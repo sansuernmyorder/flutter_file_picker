@@ -67,6 +67,8 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
 
     @Override
     public boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        finishWithError("Error while saving file", "moderrrrrrr");
+
         // Save file
         if (requestCode == SAVE_FILE_CODE) {
             if (resultCode == Activity.RESULT_OK) {
