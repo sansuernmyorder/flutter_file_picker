@@ -37,17 +37,9 @@ class FilePickerIO extends FilePicker {
     bool? withReadStream = false,
     bool lockParentWindow = false,
     bool readSequential = false,
-  }) =>
-      _getPath(
-        type,
-        allowMultiple,
-        allowCompression,
-        allowedExtensions,
-        onFileLoading,
-        withData,
-        withReadStream,
-        compressionQuality,
-      );
+  }) async {
+    return null;
+  }
 
   @override
   Future<bool?> clearTemporaryFiles() async =>
