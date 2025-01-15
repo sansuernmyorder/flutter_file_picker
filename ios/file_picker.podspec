@@ -10,7 +10,7 @@ A flutter plugin to show native file picker dialogs.
                        DESC
   s.homepage              = 'https://github.com/sansuernmyorder/flutter_file_picker'
   s.license               = { :file => '../LICENSE' }
-  s.author                = 'sansuernmyorder'
+  s.author                = 'sansuernmyorder ss'
   s.source                = { :path => '.' }
   s.source_files          = 'Classes/**/*'
   s.public_header_files   = 'Classes/**/*.h'
