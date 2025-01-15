@@ -122,6 +122,15 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
                             while (currentItem < count) {
                                  Uri currentUri = data.getClipData().getItemAt(currentItem).getUri();
 
+                                long fileSize = FileUtils.getFileSize(currentUri, activity);
+                                    activity.runOnUiThread(() -> {
+                                        new AlertDialog.Builder(activity)
+                                                .setTitle("ขนาดไฟล์ใหญ่เกินไป")
+                                                .setMessage("ไฟล์ที่เลือกมีขนาดเกิน 10MB กรุณาเลือกไฟล์ที่เล็กกว่า")
+                                                .setPositiveButton("ตกลง", null)
+                                                .show();
+                                    });
+
                                 if (Objects.equals(type, "image/*") && compressionQuality > 0) {
                                     currentUri = FileUtils.compressImage(currentUri, compressionQuality, activity.getApplicationContext());
                                 }
@@ -136,6 +145,16 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
                             finishWithSuccess(files);
                         } else if (data.getData() != null) {
                             Uri uri = data.getData();
+
+                            long fileSize = FileUtils.getFileSize(currentUri, activity);
+                            activity.runOnUiThread(() -> {
+                                new AlertDialog.Builder(activity)
+                                        .setTitle("ขนาดไฟล์ใหญ่เกินไป")
+                                        .setMessage("ไฟล์ที่เลือกมีขนาดเกิน 10MB กรุณาเลือกไฟล์ที่เล็กกว่า")
+                                        .setPositiveButton("ตกลง", null)
+                                        .show();
+                            });
+
 
                             if (Objects.equals(type, "image/*") && compressionQuality > 0) {
                                 uri = FileUtils.compressImage(uri, compressionQuality, activity.getApplicationContext());
