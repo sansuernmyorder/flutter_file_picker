@@ -34,34 +34,35 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
   }
 
   void _pickFiles() async {
-    _resetState();
-    try {
-      _directoryPath = null;
-      _paths = (await FilePicker.platform.pickFiles(
-        compressionQuality: 30,
-        type: _pickingType,
-        allowMultiple: _multiPick,
-        onFileLoading: (FilePickerStatus status) => print(status),
-        allowedExtensions: (_extension?.isNotEmpty ?? false)
-            ? _extension?.replaceAll(' ', '').split(',')
-            : null,
-        dialogTitle: _dialogTitleController.text,
-        initialDirectory: _initialDirectoryController.text,
-        lockParentWindow: _lockParentWindow,
-      ))
-          ?.files;
-    } on PlatformException catch (e) {
-      _logException('Unsupported operation' + e.toString());
-    } catch (e) {
-      _logException(e.toString());
-    }
-    if (!mounted) return;
-    setState(() {
-      _isLoading = false;
-      _fileName =
-          _paths != null ? _paths!.map((e) => e.name).toString() : '...';
-      _userAborted = _paths == null;
-    });
+    print("yooo");
+    // _resetState();
+    // try {
+    //   _directoryPath = null;
+    //   _paths = (await FilePicker.platform.pickFiles(
+    //     compressionQuality: 30,
+    //     type: _pickingType,
+    //     allowMultiple: _multiPick,
+    //     onFileLoading: (FilePickerStatus status) => print(status),
+    //     allowedExtensions: (_extension?.isNotEmpty ?? false)
+    //         ? _extension?.replaceAll(' ', '').split(',')
+    //         : null,
+    //     dialogTitle: _dialogTitleController.text,
+    //     initialDirectory: _initialDirectoryController.text,
+    //     lockParentWindow: _lockParentWindow,
+    //   ))
+    //       ?.files;
+    // } on PlatformException catch (e) {
+    //   _logException('Unsupported operation' + e.toString());
+    // } catch (e) {
+    //   _logException(e.toString());
+    // }
+    // if (!mounted) return;
+    // setState(() {
+    //   _isLoading = false;
+    //   _fileName =
+    //       _paths != null ? _paths!.map((e) => e.name).toString() : '...';
+    //   _userAborted = _paths == null;
+    // });
   }
 
   void _clearCachedFiles() async {
