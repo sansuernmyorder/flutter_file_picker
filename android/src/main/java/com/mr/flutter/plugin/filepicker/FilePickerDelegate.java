@@ -2,6 +2,8 @@ package com.mr.flutter.plugin.filepicker;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -121,15 +123,9 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
                             int currentItem = 0;
                             while (currentItem < count) {
                                  Uri currentUri = data.getClipData().getItemAt(currentItem).getUri();
+                                Dialog dialog = new Dialog(activity);
+                                dialog.setTitle("image sizee alertt");
 
-                                long fileSize = FileUtils.getFileSize(currentUri, activity);
-                                    activity.runOnUiThread(() -> {
-                                        new AlertDialog.Builder(activity)
-                                                .setTitle("ขนาดไฟล์ใหญ่เกินไป")
-                                                .setMessage("ไฟล์ที่เลือกมีขนาดเกิน 10MB กรุณาเลือกไฟล์ที่เล็กกว่า")
-                                                .setPositiveButton("ตกลง", null)
-                                                .show();
-                                    });
 
                                 if (Objects.equals(type, "image/*") && compressionQuality > 0) {
                                     currentUri = FileUtils.compressImage(currentUri, compressionQuality, activity.getApplicationContext());
@@ -145,6 +141,8 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
                             finishWithSuccess(files);
                         } else if (data.getData() != null) {
                             Uri uri = data.getData();
+                            Dialog dialog = new Dialog(activity);
+                            dialog.setTitle("image sizee alertt");
 
                             long fileSize = FileUtils.getFileSize(currentUri, activity);
                             activity.runOnUiThread(() -> {
