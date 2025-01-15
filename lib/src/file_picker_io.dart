@@ -80,6 +80,7 @@ class FilePickerIO extends FilePicker {
     bool? withReadStream,
     int? compressionQuality,
   ) async {
+    print("yeee");
     final String type = fileType.name;
     if (type != 'custom' && (allowedExtensions?.isNotEmpty ?? false)) {
       throw ArgumentError.value(
