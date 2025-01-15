@@ -234,6 +234,7 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
     }
 
     private void startFileExplorer() {
+        Log.d("startFileExplorer","startFileExplorer");
         final Intent intent;
 
         // Temporary fix, remove this null-check after Flutter Engine 1.14 has landed on stable
