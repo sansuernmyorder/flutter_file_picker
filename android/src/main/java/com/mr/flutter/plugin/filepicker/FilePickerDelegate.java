@@ -23,6 +23,7 @@ import androidx.core.app.ActivityCompat;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +66,19 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
         this.activity = activity;
         this.pendingResult = result;
     }
-
+    private long getFileSize(Uri uri) {
+        long fileSize = 0;
+        try {
+            InputStream inputStream = activity.getContentResolver().openInputStream(uri);
+            if (inputStream != null) {
+                fileSize = inputStream.available(); // ขนาดไฟล์ใน byte
+                inputStream.close();
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Error while getting file size", e);
+        }
+        return fileSize;
+    }
 
     @Override
     public boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
@@ -120,19 +133,23 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
 
                         if (data.getClipData() != null) {
                             final int count = data.getClipData().getItemCount();
+
                             int currentItem = 0;
                             while (currentItem < count) {
                                  Uri currentUri = data.getClipData().getItemAt(currentItem).getUri();
-
-                                activity.runOnUiThread(() -> {
-                                    new AlertDialog.Builder(activity)
-                                            .setTitle("ขนาดไฟล์ใหญ่เกินไป")
-                                            .setMessage("ไฟล์ที่เลือกมีขนาดเกิน 10MB กรุณาเลือกไฟล์ที่เล็กกว่า")
-                                            .setPositiveButton("ตกลง", null)
-                                            .show();
-                                });
-
-
+                                long fileSize = getFileSize(currentUri);
+                                Log.d(TAG, "File #" + currentItem + " size: " + fileSize + " bytes");
+                                double maxFileSize = data.getDoubleExtra("max_file_size", -1);
+                                if (fileSize > maxFileSize) {
+                                    activity.runOnUiThread(() -> {
+                                        new AlertDialog.Builder(activity)
+                                                .setTitle("ขนาดไฟล์ใหญ่เกินไป")
+                                                .setMessage("ไฟล์ที่เลือกมีขนาดเกิน 10MB กรุณาเลือกไฟล์ที่เล็กกว่า")
+                                                .setPositiveButton("ตกลง", null)
+                                                .show();
+                                    });
+                                    return;
+                                }
 
                                 if (Objects.equals(type, "image/*") && compressionQuality > 0) {
                                     currentUri = FileUtils.compressImage(currentUri, compressionQuality, activity.getApplicationContext());
@@ -148,13 +165,22 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
                             finishWithSuccess(files);
                         } else if (data.getData() != null) {
                             Uri uri = data.getData();
-                            activity.runOnUiThread(() -> {
-                                new AlertDialog.Builder(activity)
-                                        .setTitle("ขนาดไฟล์ใหญ่เกินไป")
-                                        .setMessage("ไฟล์ที่เลือกมีขนาดเกิน 10MB กรุณาเลือกไฟล์ที่เล็กกว่า")
-                                        .setPositiveButton("ตกลง", null)
-                                        .show();
-                            });
+
+                            long fileSize = getFileSize(uri);
+                            Log.d(TAG, " size: " + fileSize + " bytes");
+
+                            double maxFileSize = data.getDoubleExtra("max_file_size", -1);
+                            if (fileSize > maxFileSize) {
+                                activity.runOnUiThread(() -> {
+                                    new AlertDialog.Builder(activity)
+                                            .setTitle("ขนาดไฟล์ใหญ่เกินไป")
+                                            .setMessage("ไฟล์ที่เลือกมีขนาดเกิน 10MB กรุณาเลือกไฟล์ที่เล็กกว่า")
+                                            .setPositiveButton("ตกลง", null)
+                                            .show();
+                                });
+                                return;
+                            }
+
 
                             if (Objects.equals(type, "image/*") && compressionQuality > 0) {
                                 uri = FileUtils.compressImage(uri, compressionQuality, activity.getApplicationContext());
@@ -274,8 +300,11 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
             Log.d(TAG, "Selected type " + type);
             intent.setDataAndType(uri, this.type);
             intent.setType(this.type);
+            //validation
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, this.isMultipleSelection);
             intent.putExtra("multi-pick", this.isMultipleSelection);
+
+            intent.putExtra("max_file_size", 1 / 8);
 
             if (type.contains(",")) {
                 allowedExtensions = type.split(",");
@@ -374,7 +403,6 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
     }
 
     private void dispatchEventStatus(final boolean status) {
-
         if(eventSink == null || type.equals("dir")) {
             return;
         }
