@@ -291,7 +291,12 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
             intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
         } else {
             if (type.equals("image/*")) {
+                Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+                mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
                 intent = new Intent(Intent.ACTION_PICK_ACTIVITY, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, this.isMultipleSelection);
+                intent.putExtra(Intent.EXTRA_INTENT, mainIntent);
+
             } else {
                 intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
